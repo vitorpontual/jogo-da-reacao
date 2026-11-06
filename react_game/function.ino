@@ -13,8 +13,8 @@ unsigned long limFinalSingle(int level) {
     switch(level) {
         case 1: return 7000;
         case 2: return 5000;
-        case 3: return 3010;
-        case 4: return 1010;
+        case 3: return 3000;
+        case 4: return 1000;
         default: return 7000;
     }
 }
@@ -23,7 +23,7 @@ bool checkHitSingle(unsigned long time, int level) {
     switch (level) {
     case 1: return time >= 3000 && time <= 7000;
     case 2: return 3000 <= time && time <= 5000;
-    case 3: return 3000 <= time && time <= 3010;
+    case 3: return 2500 <= time && time <= 3000;
     case 4: return 1000 == time ;
     default: return false;
   }
