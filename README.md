@@ -1,4 +1,3 @@
-```markdown
 # ⏱️ Jogo de Tempo de Reação com Arduino
 
 Este é um projeto interativo desenvolvido com Arduino Uno que testa os seus reflexos e a sua percepção de tempo. O jogo possui dois modos: um desafio solo (Singleplayer) com níveis de dificuldade progressiva, e um modo de duelo (Multiplayer) onde dois jogadores competem para ver quem tem a melhor precisão!
@@ -76,5 +75,3 @@ Em Desenvolvimento, Adicionar cronometro para usuarios externos assistirem o tem
 
 
 *Desenvolvido para fins de estudo de eletrônica, programação em C++ e lógica condicional.*
-
-```
