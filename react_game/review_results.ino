@@ -1,9 +1,15 @@
 // --- AVALIAÇÃO DE RESULTADOS ---
 
-void rateSinglePlayer(unsigned long time, bool hit){
-    Serial.print("Tempo do P!: ");
+void rateSinglePlayer(int time, bool hit){
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print("Tempo do P1: ");
+    lcd.setCursor(8, 1);
+    lcd.print(time/ 1000.0, 3);
+    lcd.print(" s");
+    /*Serial.print("Tempo do P1: ");
     Serial.print(time/ 1000.0, 3);
-    Serial.println(" s");
+    Serial.println(" s");*/
 
     if (hit) {
         digitalWrite(LEDG, HIGH);
@@ -12,6 +18,8 @@ void rateSinglePlayer(unsigned long time, bool hit){
         currentLevel++;
 
         if (currentLevel > TOTAL_LEVELS) {
+            digitalWrite(LEDR, HIGH);
+            digitalWrite(LEDG, HIGH);
             Serial.println("\nPARABENS! Voce venceu todos os niveis!");
             delay(4000);
             backMenu();
@@ -27,9 +35,9 @@ void rateSinglePlayer(unsigned long time, bool hit){
 }
 
 void rateMultiplayer() {
-    unsigned long target = gainTimeTargetDuo(currentLevel);
-    unsigned long missP1 = diffCalculator(target, timePressP1);
-    unsigned long missP2 = diffCalculator(target, timePressP2);
+    int target = gainTimeTargetDuo(currentLevel);
+    int missP1 = diffCalculator(target, timePressP1);
+    int missP2 = diffCalculator(target, timePressP2);
 
     Serial.println("\n--- RESULTADO DA RODADA ---");
     Serial.print("Alvo: ");
@@ -57,7 +65,7 @@ void rateMultiplayer() {
         pointsP2++;
         digitalWrite(LEDR, HIGH);
     } else {
-        Serial.println(">>> EMPATE! Ninguem pontual.");
+        Serial.println(">>> EMPATE! Ninguem pontua.");
         digitalWrite(LEDG, HIGH);
         digitalWrite(LEDR, HIGH);
     }

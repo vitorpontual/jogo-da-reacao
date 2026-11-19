@@ -1,3 +1,9 @@
+#include <LiquidCrystal_I2C.h>
+#include <Wire.h>
+
+
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
 // -- PINOS --
 
 const int BTN_P1 = 2;
@@ -15,19 +21,20 @@ enum gameState {
     SINGLEPLAYER,
     MULTIPLAYER
 };
+ 
 
 // -- VARIÁVEIS GLOBAIS --
 gameState currentState = MENU;
 int currentLevel = 1;
-unsigned long startTime = 0;
+int startTime = 0;
 
-// Variãveis Singleplayer
+// Variáveis Singleplayer
 int pointsP1 = 0; // Usado em ambos
 
 // Varíáveis Multiplayer
 int pointsP2 = 0;
 bool p1AlreadyPlay = false, p2AlreadyPlay = false;
-unsigned long timePressP1 = 0, timePressP2 = 0;
+int timePressP1 = 0, timePressP2 = 0;
 
 // Estado anterior dos botões (para detectar apenas o clique, não se está segurando)
  bool p1PreviousState = false, p2PreviousState = false;
@@ -35,11 +42,17 @@ unsigned long timePressP1 = 0, timePressP2 = 0;
  void setup() {
     Serial.begin(9600);
 
+    lcd.init();
+    lcd.backlight();
+
     pinMode(LEDG, OUTPUT);
     pinMode(LEDR, OUTPUT);
     pinMode(BTN_P1, INPUT_PULLUP);
     pinMode(BTN_P2, INPUT_PULLUP);
-
+    
+    lcd.setCursor(0,0);
+    lcd.print("Aguardando..");
+    
     showMenu();
  }
 
@@ -74,11 +87,11 @@ unsigned long timePressP1 = 0, timePressP2 = 0;
     }
 
     else if (currentState == SINGLEPLAYER) {
-        unsigned long timePass = millis() - startTime;
+        int timePass = millis() - startTime;
 
         if (clickP1) {
-            rateSinglePlayer(timePass, 
-            checkHitSingle(timePass, currentLevel));
+            rateSinglePlayer(timePass, checkHitSingle(timePass, currentLevel));
+
         } else if ( timePass > limFinalSingle(currentLevel)) {
             Serial.println("Tempo esgotado!");
             checkHitSingle(timePass, false);
@@ -88,8 +101,8 @@ unsigned long timePressP1 = 0, timePressP2 = 0;
     }
 
     else if (currentState == MULTIPLAYER) {
-        unsigned long currentTime = millis();
-        unsigned long timePass = currentTime - startTime;
+        int currentTime = millis();
+        int timePass = currentTime - startTime;
 
         // Registra o tempo do p1 se ele apertar e ainda não tiver jogado
         if (clickP1 && !p1AlreadyPlay) {
@@ -109,7 +122,7 @@ unsigned long timePressP1 = 0, timePressP2 = 0;
             rateMultiplayer();
         }
 
-        unsigned long target = gainTimeTargetDuo(currentLevel);
+        int target = gainTimeTargetDuo(currentLevel);
         if (timePass > target + 10000 && (!p1AlreadyPlay || !p2AlreadyPlay)) {
             Serial.println("Alguem dormiu no ponto! Rodada Cancelada.");
             delay(2000);

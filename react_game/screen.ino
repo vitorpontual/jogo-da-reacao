@@ -1,13 +1,20 @@
 // --- TELAS E FLUXOS ---
+bool stateLED = false;
 
 void showMenu(){
     digitalWrite(LEDG, LOW);
     digitalWrite(LEDR, LOW);
 
-    Serial.println("=== JOGO DA REACAO ===");
-    Serial.println("P1: Iniciar Singleplayer");
-    Serial.println("P2: Iniciar Multiplayer");
-    Serial.println("Escolha um modo apertando o botão correspondente");
+
+    lcd.clear();
+    lcd.setCursor(1, 0);
+    lcd.print("JOGO DA REACAO");
+    lcd.setCursor(0, 1);
+    lcd.print("P1:Solo  P2:Duo"); 
+    //Serial.println("=== JOGO DA REACAO ===");
+    //Serial.println("P1: Iniciar Singleplayer");
+    //Serial.println("P2: Iniciar Multiplayer");
+    //Serial.println("Escolha um modo apertando o botão correspondente");
 }
 
 void backMenu(){
@@ -27,14 +34,28 @@ void startRound() {
     digitalWrite(LEDG, LOW);
     digitalWrite(LEDR, LOW);
 
-    Serial.println();
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print("==== Level ");
+    lcd.print(currentLevel);
+    lcd.print(" ====");
+    /*Serial.println();
     Serial.print("=== LEVEL ");
     Serial.print(currentLevel);
-    Serial.println(" ===");
+    Serial.println(" ===");*/
 
     if (currentState == SINGLEPLAYER) {
-        if (currentLevel == 1) Serial.println("Acerte no intervalo entre 3 e 7 segundos.");
-        else if (currentLevel == 2) Serial.println("Acerte no intervalo entre 3 e 5 segundos");
+        if (currentLevel == 1) {
+            lcd.clear();
+            lcd.setCursor(0, 0);
+            lcd.print("Intervalo 3 e 7");
+
+        } // Serial.println("Acerte no intervalo entre 3 e 7 segundos.");
+        else if (currentLevel == 2) {
+            lcd.clear();
+            lcd.setCursor(0, 0);
+            lcd.print("");
+        }//Serial.println("Acerte no intervalo entre 3 e 5 segundos");
         else if (currentLevel == 3) Serial.println("Acerte no intervalo entre 2,5 e 3 segundos");
         else Serial.println("Acerte exatemente em 1 segundo");
     }  else if (currentState == MULTIPLAYER) {
@@ -45,12 +66,21 @@ void startRound() {
         Serial.println("Quem apertar mais proximo do tempo ganha 1 ponto!");
     }
 
+    // Contagem Regressiva
     Serial.println("Prepare-se...");
     for (int i = 5; i >= 1; i--){
         Serial.println(i);
-        delay(1000);
+        if (stateLED == false) {
+            digitalWrite(LEDG, HIGH);
+            stateLED = true;
+        } else {
+            digitalWrite(LEDG, LOW);
+            stateLED = false;
+        }
+        delay(100);
     }
 
+    digitalWrite(LEDG, LOW);
     Serial.println("Valendo! Aperte o botao!");
     startTime = millis();
 
