@@ -74,14 +74,29 @@ int timePressP1 = 0, timePressP2 = 0;
 
     if(currentState == MENU) {
         if (clickP1 && clickP2) {
-            Serial.println("Escolha um modo de jogo.");
+            lcd.clear();
+            lcd.setCursor(0,0);
+            lcd.print("== Modo de jogo ==");
+            //Serial.println("Escolha um modo de jogo.");
         } else if (clickP1) {
             currentState = SINGLEPLAYER;
-            Serial.println("\nModo SINGLEPLAYER selecionado!");
+            lcd.clear();
+            lcd.setCursor(0,0);
+            lcd.print("Modo SOLO");
+            lcd.setCursor(0, 1);
+            lcd.print("SELECIONADO");
+            delay(1000);
+            //Serial.println("\nModo SINGLEPLAYER selecionado!");
             startRound();
         } else if (clickP2) {
             currentState = MULTIPLAYER;
-            Serial.println("\nModo MULTIPLAYER selecionado!");
+            lcd.clear();
+            lcd.setCursor(0,0);
+            lcd.print("Modo MULTIPLAYER");
+            lcd.setCursor(0, 1);
+            lcd.print("SELECIONADO");
+            delay(3000);
+            //println("\nModo MULTIPLAYER selecionado!");
             startRound();
         }
     }
@@ -93,7 +108,10 @@ int timePressP1 = 0, timePressP2 = 0;
             rateSinglePlayer(timePass, checkHitSingle(timePass, currentLevel));
 
         } else if ( timePass > limFinalSingle(currentLevel)) {
-            Serial.println("Tempo esgotado!");
+            lcd.clear();
+            lcd.setCursor(0,0);
+            lcd.print("Tempo esgotado");
+            //Serial.println("Tempo esgotado!");
             checkHitSingle(timePass, false);
             delay(2000);
             backMenu();
@@ -108,13 +126,19 @@ int timePressP1 = 0, timePressP2 = 0;
         if (clickP1 && !p1AlreadyPlay) {
             timePressP1 = timePass;
             p1AlreadyPlay = true;
-            Serial.println("P1 apertou!");
+            lcd.clear();
+            lcd.setCursor(4, 1);
+            lcd.print("P1 apertou!");
+            //Serial.println("P1 apertou!");
         }
         // Registra o tempo do p2 se ele apertar e ainda não tiver jogado
         if (clickP2 && !p2AlreadyPlay) {
             timePressP2 = timePass;
             p2AlreadyPlay = true;
-            Serial.println("P2 apertou!");
+            lcd.clear();
+            lcd.setCursor(4,1);
+            lcd.print("P2 apertou!");
+            //Serial.println("P2 apertou!");
         }
 
         // Se ambos já apertaram, finaliza a rodada e compara
@@ -124,7 +148,12 @@ int timePressP1 = 0, timePressP2 = 0;
 
         int target = gainTimeTargetDuo(currentLevel);
         if (timePass > target + 10000 && (!p1AlreadyPlay || !p2AlreadyPlay)) {
-            Serial.println("Alguem dormiu no ponto! Rodada Cancelada.");
+            lcd.clear();
+            lcd.setCursor(0, 0);
+            lcd.print("Alguem dormiu");
+            lcd.setCursor(0,1);
+            lcd.print("Partida Cancelada!");
+            //Serial.println("Alguem dormiu no ponto! Rodada Cancelada.");
             delay(2000);
             backMenu();
         }

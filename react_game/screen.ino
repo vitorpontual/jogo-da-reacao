@@ -39,6 +39,7 @@ void startRound() {
     lcd.print("==== Level ");
     lcd.print(currentLevel);
     lcd.print(" ====");
+    delay(1500);
     /*Serial.println();
     Serial.print("=== LEVEL ");
     Serial.print(currentLevel);
@@ -48,28 +49,56 @@ void startRound() {
         if (currentLevel == 1) {
             lcd.clear();
             lcd.setCursor(0, 0);
-            lcd.print("Intervalo 3 e 7");
+            lcd.print("Intervalo 3 a 7");
 
         } // Serial.println("Acerte no intervalo entre 3 e 7 segundos.");
         else if (currentLevel == 2) {
             lcd.clear();
             lcd.setCursor(0, 0);
-            lcd.print("");
+            lcd.print("Invertvalo 3 a 5");
         }//Serial.println("Acerte no intervalo entre 3 e 5 segundos");
-        else if (currentLevel == 3) Serial.println("Acerte no intervalo entre 2,5 e 3 segundos");
-        else Serial.println("Acerte exatemente em 1 segundo");
+        else if (currentLevel == 3) {
+            lcd.clear();
+            lcd.setCursor(0, 0);
+            lcd.print("Invertvalo entre");  
+            lcd.setCursor(0, 1);
+            lcd.print("2,5 a 3s");    
+        }//Serial.println("Acerte no intervalo entre 2,5 e 3 segundos");
+        else {
+            lcd.clear();
+            lcd.setCursor(0 ,0);
+            lcd.print("APERTO PERFEITO");
+            lcd.setCursor(4,1);
+            lcd.print("1 SEGUNDO");
+        }///Serial.println("Acerte exatemente em 1 segundo");
     }  else if (currentState == MULTIPLAYER) {
         unsigned long target = gainTimeTargetDuo(currentLevel);
-        Serial.print("TEMPO ALVO: ");
+        lcd.clear();
+        lcd.setCursor(0 ,0);
+        lcd.print("TEMPO ALVO: "); lcd.print(target/ 1000.2); lcd.print(" s");
+        lcd.setCursor(0, 1);
+        lcd.print("APERTO PRECISO!");
+        /*Serial.print("TEMPO ALVO: ");
         Serial.print(target/ 1000.0, 2);
         Serial.println(" segundos.");
-        Serial.println("Quem apertar mais proximo do tempo ganha 1 ponto!");
+        Serial.println("Quem apertar mais proximo do tempo ganha 1 ponto!");*/
     }
 
     // Contagem Regressiva
-    Serial.println("Prepare-se...");
+    delay(3000);
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Prepare-se...");
+    delay(1000);
+    lcd.clear();
+    // Serial.println("Prepare-se...");
+
+    int count = 0;
     for (int i = 5; i >= 1; i--){
-        Serial.println(i);
+        lcd.setCursor(count, 0);
+        count+=2;
+        lcd.print(i);      
+        //Serial.println(i);
         if (stateLED == false) {
             digitalWrite(LEDG, HIGH);
             stateLED = true;
@@ -77,11 +106,14 @@ void startRound() {
             digitalWrite(LEDG, LOW);
             stateLED = false;
         }
-        delay(100);
+        delay(1000);
     }
 
     digitalWrite(LEDG, LOW);
-    Serial.println("Valendo! Aperte o botao!");
+    lcd.clear();
+    lcd.setCursor(0 ,0);
+    lcd.print("Valendo");
+    //Serial.println("Valendo! Aperte o botao!");
     startTime = millis();
 
    // Reset das váriaveis para a rodada

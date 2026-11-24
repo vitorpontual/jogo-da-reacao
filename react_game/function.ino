@@ -11,10 +11,10 @@ int diffCalculator(int target, int gain) {
 // Retorna os limtes para o Singleplayer
 int limFinalSingle(int level) { 
     switch(level) {
-        case 1: return 7000;
-        case 2: return 5000;
-        case 3: return 3000;
-        case 4: return 1000;
+        case 1: return 8000;
+        case 2: return 6000;
+        case 3: return 4000;
+        case 4: return 4000;
         default: return 10000;
     }
 }
